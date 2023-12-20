@@ -4,6 +4,9 @@ import zipfile
 from lxml import etree
 from nltk.tokenize import word_tokenize, sent_tokenize
 
+from gensim.models import Word2Vec
+from gensim.models import KeyedVectors
+
 
 # 데이터 다운로드
 urllib.request.urlretrieve("https://raw.githubusercontent.com/ukairia777/tensorflow-nlp-tutorial/main/09.%20Word%20Embedding/dataset/ted_en-20160408.xml", filename="ted_en-20160408.xml")
@@ -31,3 +34,11 @@ for string in sent_text:
 result = [word_tokenize(sentence) for sentence in normalized_text]
 
 print('총 샘플의 개수 : {}'.format(len(result)))
+
+for line in result[:3]:
+     print(line)
+
+model = Word2Vec(sentences=result, vector_size=100, window=5, min_count=5, workers = 4, sg=0)
+
+model_result = model.wv.most_similar("man")
+print(model_result)
